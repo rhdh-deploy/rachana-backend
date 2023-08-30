@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: rachana-poi-backend-app-dev
+  annotations:
+    argocd/app-name: rachana-poi-backend-app-dev
+    backstage.io/kubernetes-id: rachana-poi-backend-app
+    backstage.io/kubernetes-namespace: rachana
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: rhdh-deploy/rachana-backend
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.a1jxqhzp.eastus2.aroapp.io/dev-pipelines/ns/rachana/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.a1jxqhzp.eastus2.aroapp.io/k8s/ns/rachana/deployments/rachana-poi-backend-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.a1jxqhzp.eastus2.aroapp.io/#https://github.com/rhdh-deploy/rachana-backend?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:default/rachanabaddula"
+  system: workshop-system-rachana
+  providesApis:
+    - backend-api-rachana
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-rachana
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:default/rachanabaddula"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: backend-api-rachana
+  description: API surface used by workshop attendees to initialize and load parks data
+  links:
+    - url: http://rachana-poi-backend-app-rachana.apps.a1jxqhzp.eastus2.aroapp.io/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/rhdh-deploy/rachana-backend/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:default/rachanabaddula"
+  system: workshop-system-rachana
+  definition:
+    $text: https://github.com/rhdh-deploy/rachana-backend/tree/main/src/main/resources/META-INF/openapi.yaml
